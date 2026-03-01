@@ -39,6 +39,15 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {
+        "origin": "https://rork.com/"
+      },
+      "eas": {
+        "projectId": "0334f5fb-492c-427d-8325-f8829f603364"
+      }
+    },
+    "owner": "niraj09619"
   }
 }
