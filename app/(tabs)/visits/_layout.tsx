@@ -11,7 +11,7 @@ export default function VisitsLayout() {
         headerTitleStyle: { fontWeight: '700' as const },
       }}
     >
-      <Stack.Screen name="index" options={{ title: "Daily Visit Diary" }} />
+      <Stack.Screen name="index" options={{ title: "Daily Activity Log" }} />
     </Stack>
   );
 }

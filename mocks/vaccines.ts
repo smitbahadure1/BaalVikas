@@ -27,13 +27,10 @@ export const VACCINE_SCHEDULE = [
 ];
 
 export const VISIT_PURPOSES = [
-  'ANC',
-  'Vaccination',
+  'Home Visit',
   'Counseling',
-  'Follow-up',
-  'Survey',
-  'Medicine Distribution',
-  'Other',
+  'Growth Check',
+  'Distribution',
 ] as const;
 
 export const SOCIO_ECONOMIC_CATEGORIES = [

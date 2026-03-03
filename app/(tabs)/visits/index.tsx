@@ -59,9 +59,13 @@ export default function VisitsScreen() {
 
   const getPurposeColor = (purpose: string) => {
     switch (purpose) {
+      case 'Home Visit': return { bg: '#E3F2FD', text: '#1565C0' };
+      case 'Growth Check': return { bg: '#E8F5E9', text: '#2E7D32' };
+      case 'Counseling': return { bg: '#F3E5F5', text: '#6A1B9A' };
+      case 'Distribution': return { bg: '#FFF3E0', text: '#E65100' };
+      // Fallbacks
       case 'ANC': return { bg: '#FFEBEE', text: '#C62828' };
       case 'Vaccination': return { bg: '#E8F5E9', text: '#2E7D32' };
-      case 'Counseling': return { bg: '#E3F2FD', text: '#1565C0' };
       case 'Follow-up': return { bg: '#FFF3E0', text: '#E65100' };
       case 'Survey': return { bg: '#F3E5F5', text: '#6A1B9A' };
       case 'Medicine Distribution': return { bg: '#E0F2F1', text: '#00695C' };

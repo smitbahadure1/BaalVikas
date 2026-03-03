@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert, Linking } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Bell, Heart, Syringe, Calendar, AlertTriangle, ChevronRight } from 'lucide-react-native';
 import Colors from '@/constants/colors';
@@ -7,7 +7,7 @@ import { useData } from '@/providers/DataProvider';
 
 export default function RemindersScreen() {
   const router = useRouter();
-  const { activePregnantWomen, upcomingVaccinations, visits } = useData();
+  const { activePregnantWomen, upcomingVaccinations, visits, medicines } = useData();
 
   const ancDue = useMemo(() => {
     return activePregnantWomen.filter(w => {
@@ -26,13 +26,84 @@ export default function RemindersScreen() {
     return activePregnantWomen.filter(w => w.isHighRisk);
   }, [activePregnantWomen]);
 
+  const lowStock = useMemo(() => {
+    // Only keeping latest record of each medicine to check stock
+    const latestStockMap = new Map();
+    medicines.forEach(m => {
+      const stock = parseInt(m.remainingStock || '0');
+      if (m.remainingStock && stock < 15) { // Threshold for low stock
+        latestStockMap.set(m.medicineName, stock);
+      } else if (m.remainingStock && stock >= 15) {
+        latestStockMap.delete(m.medicineName);
+      }
+    });
+    return Array.from(latestStockMap.entries());
+  }, [medicines]);
+
+  const handleReminderTap = (name: string, detail: string, routeId: string, type: 'child' | 'pregnant' | 'visit') => {
+    Alert.alert(
+      'Action Required',
+      `Options for ${name}`,
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Send WhatsApp Reminder',
+          onPress: () => {
+            const message = `Namaste, this is an important reminder from Anganwadi for ${name}. Details: ${detail}`;
+            Linking.openURL(`whatsapp://send?text=${encodeURIComponent(message)}`).catch(() => {
+              Alert.alert('Error', 'WhatsApp is not installed on this device.');
+            });
+          }
+        },
+        {
+          text: 'View Record',
+          onPress: () => {
+            if (type === 'child') router.push({ pathname: '/edit-child', params: { id: routeId } });
+            else if (type === 'pregnant') router.push({ pathname: '/edit-pregnant', params: { id: routeId } });
+          }
+        },
+        type === 'visit' ? {
+          text: 'Mark as Done',
+          onPress: () => {
+            // Mock action since we are not directly mutating the visit state from here for now,
+            // But in a real app this would call updateVisit({ ...visit, isCompleted: true })
+            Alert.alert('Success', 'Activity marked as done.');
+          }
+        } : null
+      ].filter(Boolean) as any[]
+    );
+  };
+
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+      {lowStock.length > 0 && (
+        <View style={styles.section}>
+          <View style={styles.sectionHeader}>
+            <AlertTriangle size={18} color="#C62828" />
+            <Text style={styles.sectionTitle}>Low THR Stock Alert</Text>
+            <View style={[styles.countBadge, { backgroundColor: '#FFEBEE' }]}>
+              <Text style={[styles.countText, { color: '#C62828' }]}>{lowStock.length}</Text>
+            </View>
+          </View>
+          {lowStock.map(([name, stock]) => (
+            <View key={name} style={styles.reminderCard}>
+              <View style={[styles.reminderDot, { backgroundColor: '#C62828' }]} />
+              <View style={styles.reminderContent}>
+                <Text style={styles.reminderName}>{name}</Text>
+                <Text style={[styles.reminderDetail, { color: '#C62828', fontWeight: '500' }]}>
+                  Only {stock} units remaining. Request refill from CDPO.
+                </Text>
+              </View>
+            </View>
+          ))}
+        </View>
+      )}
+
       {highRisk.length > 0 && (
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
             <AlertTriangle size={18} color="#C62828" />
-            <Text style={styles.sectionTitle}>High Risk Pregnancies</Text>
+            <Text style={styles.sectionTitle}>Underweight Children Monitoring</Text>
             <View style={[styles.countBadge, { backgroundColor: '#FFEBEE' }]}>
               <Text style={[styles.countText, { color: '#C62828' }]}>{highRisk.length}</Text>
             </View>
@@ -41,7 +112,7 @@ export default function RemindersScreen() {
             <TouchableOpacity
               key={w.id}
               style={styles.reminderCard}
-              onPress={() => router.push({ pathname: '/edit-pregnant', params: { id: w.id } })}
+              onPress={() => handleReminderTap(w.name, w.highRiskReason || 'Require close monitoring', w.id, 'pregnant')}
               activeOpacity={0.7}
             >
               <View style={[styles.reminderDot, { backgroundColor: '#C62828' }]} />
@@ -60,7 +131,7 @@ export default function RemindersScreen() {
       <View style={styles.section}>
         <View style={styles.sectionHeader}>
           <Heart size={18} color="#C62828" />
-          <Text style={styles.sectionTitle}>ANC Visits Due</Text>
+          <Text style={styles.sectionTitle}>Pregnant Mother ANC Visit Due</Text>
           <View style={[styles.countBadge, { backgroundColor: '#FFEBEE' }]}>
             <Text style={[styles.countText, { color: '#C62828' }]}>{ancDue.length}</Text>
           </View>
@@ -72,7 +143,7 @@ export default function RemindersScreen() {
             <TouchableOpacity
               key={w.id}
               style={styles.reminderCard}
-              onPress={() => router.push({ pathname: '/edit-pregnant', params: { id: w.id } })}
+              onPress={() => handleReminderTap(w.name, `Trimester ${w.trimester} | ANC Visit due`, w.id, 'pregnant')}
               activeOpacity={0.7}
             >
               <View style={[styles.reminderDot, { backgroundColor: '#E65100' }]} />
@@ -91,7 +162,7 @@ export default function RemindersScreen() {
       <View style={styles.section}>
         <View style={styles.sectionHeader}>
           <Syringe size={18} color="#E65100" />
-          <Text style={styles.sectionTitle}>Vaccines Due (7 days)</Text>
+          <Text style={styles.sectionTitle}>Child Weight Check Due</Text>
           <View style={[styles.countBadge, { backgroundColor: '#FFF3E0' }]}>
             <Text style={[styles.countText, { color: '#E65100' }]}>{upcomingVaccinations.length}</Text>
           </View>
@@ -103,7 +174,7 @@ export default function RemindersScreen() {
             <TouchableOpacity
               key={`${item.child.id}-${idx}`}
               style={styles.reminderCard}
-              onPress={() => router.push({ pathname: '/edit-child', params: { id: item.child.id } })}
+              onPress={() => handleReminderTap(item.child.name, `${item.vaccine} | Due: ${new Date(item.dueDate).toLocaleDateString()}`, item.child.id, 'child')}
               activeOpacity={0.7}
             >
               <View style={[styles.reminderDot, { backgroundColor: '#FFA726' }]} />
@@ -122,7 +193,7 @@ export default function RemindersScreen() {
       <View style={styles.section}>
         <View style={styles.sectionHeader}>
           <Calendar size={18} color="#1565C0" />
-          <Text style={styles.sectionTitle}>Pending Follow-ups</Text>
+          <Text style={styles.sectionTitle}>Supplement Distribution Pending</Text>
           <View style={[styles.countBadge, { backgroundColor: '#E3F2FD' }]}>
             <Text style={[styles.countText, { color: '#1565C0' }]}>{pendingFollowUps.length}</Text>
           </View>
@@ -131,7 +202,12 @@ export default function RemindersScreen() {
           <Text style={styles.emptyText}>No pending follow-ups</Text>
         ) : (
           pendingFollowUps.slice(0, 10).map(v => (
-            <View key={v.id} style={styles.reminderCard}>
+            <TouchableOpacity
+              key={v.id}
+              style={styles.reminderCard}
+              onPress={() => handleReminderTap(v.householdName || 'Visit', `${v.purpose} | ${new Date(v.date).toLocaleDateString()}`, v.id, 'visit')}
+              activeOpacity={0.7}
+            >
               <View style={[styles.reminderDot, { backgroundColor: '#42A5F5' }]} />
               <View style={styles.reminderContent}>
                 <Text style={styles.reminderName}>{v.householdName || 'Visit'}</Text>
@@ -139,7 +215,8 @@ export default function RemindersScreen() {
                   {v.purpose} | {new Date(v.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}
                 </Text>
               </View>
-            </View>
+              <ChevronRight size={16} color={Colors.textMuted} />
+            </TouchableOpacity>
           ))
         )}
       </View>

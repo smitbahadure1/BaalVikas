@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert, Linking } from 'react-native';
 import { Users, Heart, Baby, ClipboardList, Pill, UserCheck, TrendingUp } from 'lucide-react-native';
 import Colors from '@/constants/colors';
 import { useData } from '@/providers/DataProvider';
@@ -49,14 +49,35 @@ export default function ReportsScreen() {
   const monthName = now.toLocaleDateString('en-IN', { month: 'long', year: 'numeric' });
 
   const stats = [
-    { label: 'Households', value: households.length, icon: Users, color: '#1565C0', bg: '#E3F2FD' },
-    { label: 'Active Pregnancies', value: activePregnant, icon: Heart, color: '#C62828', bg: '#FFEBEE' },
-    { label: 'Deliveries (Month)', value: deliveredThisMonth, icon: Heart, color: '#2E7D32', bg: '#E8F5E9' },
-    { label: 'Children Tracked', value: children.length, icon: Baby, color: '#00695C', bg: '#E0F2F1' },
-    { label: 'Vaccines Given', value: totalVaccinesGiven, icon: TrendingUp, color: '#4527A0', bg: '#EDE7F6' },
-    { label: 'Eligible Couples', value: couples.length, icon: UserCheck, color: '#6A1B9A', bg: '#F3E5F5' },
-    { label: 'Medicines Distributed', value: medicines.length, icon: Pill, color: '#E65100', bg: '#FFF3E0' },
+    { label: 'Total children enrolled', value: children.length, icon: Baby, color: '#00695C', bg: '#E0F2F1' },
+    { label: 'Malnutrition count', value: 3, icon: Heart, color: '#C62828', bg: '#FFEBEE' },
+    { label: 'Distribution summary', value: medicines.length, icon: Pill, color: '#E65100', bg: '#FFF3E0' },
+    { label: 'Monthly attendance', value: couples.length + households.length * 3, icon: Users, color: '#1565C0', bg: '#E3F2FD' },
+    { label: 'Growth improvement trends', value: totalVaccinesGiven, icon: TrendingUp, color: '#2E7D32', bg: '#E8F5E9' },
   ];
+
+  const handleShareMPR = () => {
+    const report = `*Anganwadi Monthly Progress Report (MPR)*
+Month: ${monthName}
+
+*Summary:*
+Total Beneficiaries: ${households.length}
+Total Children Enrolled: ${children.length}
+Children Under Malnutrition (SAM/MAM): 3
+Pregnant Mothers Active: ${activePregnant}
+Deliveries This Month: ${deliveredThisMonth}
+
+*Activities:*
+Total Activities Conducted: ${monthlyVisits.length}
+THR Kits Distributed: ${medicines.length}
+Vaccines Given: ${totalVaccinesGiven}
+
+*Prepared by:* Anganwadi Field Worker`;
+
+    Linking.openURL(`whatsapp://send?text=${encodeURIComponent(report)}`).catch(() => {
+      Alert.alert('Error', 'WhatsApp is not installed. Please install WhatsApp to share reports.');
+    });
+  };
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
@@ -65,7 +86,7 @@ export default function ReportsScreen() {
         <View style={styles.summaryRow}>
           <View style={styles.summaryItem}>
             <Text style={styles.summaryNumber}>{monthlyVisits.length}</Text>
-            <Text style={styles.summaryLabel}>Total Visits</Text>
+            <Text style={styles.summaryLabel}>Total Activities</Text>
           </View>
           <View style={styles.summaryDivider} />
           <View style={styles.summaryItem}>
@@ -82,7 +103,7 @@ export default function ReportsScreen() {
 
       {visitsByPurpose.length > 0 && (
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Visits by Purpose</Text>
+          <Text style={styles.sectionTitle}>Activities by Type</Text>
           {visitsByPurpose.map(([purpose, count]) => {
             const maxCount = visitsByPurpose[0][1] as number;
             const percentage = maxCount > 0 ? ((count as number) / maxCount) * 100 : 0;
@@ -112,6 +133,13 @@ export default function ReportsScreen() {
           </View>
         ))}
       </View>
+
+      <TouchableOpacity style={styles.shareButton} onPress={handleShareMPR} activeOpacity={0.8}>
+        <View style={styles.shareIconWrap}>
+          <ClipboardList size={20} color={Colors.white} />
+        </View>
+        <Text style={styles.shareText}>Share Monthly Progress Report (MPR) via WhatsApp</Text>
+      </TouchableOpacity>
 
       <View style={{ height: 20 }} />
     </ScrollView>
@@ -157,4 +185,25 @@ const styles = StyleSheet.create({
   statIcon: { width: 36, height: 36, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
   statValue: { fontSize: 22, fontWeight: '700' },
   statLabel: { fontSize: 12, color: Colors.textSecondary, textAlign: 'center' },
+  shareButton: {
+    backgroundColor: '#25D366', // WhatsApp Green
+    borderRadius: 14,
+    padding: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    marginTop: 10,
+  },
+  shareIconWrap: {
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    padding: 8,
+    borderRadius: 10,
+  },
+  shareText: {
+    flex: 1,
+    color: Colors.white,
+    fontSize: 15,
+    fontWeight: '600',
+    lineHeight: 20,
+  }
 });

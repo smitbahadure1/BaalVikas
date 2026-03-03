@@ -12,12 +12,12 @@ import {
 } from '@/types';
 
 const STORAGE_KEYS = {
-  households: 'asha_households',
-  pregnantWomen: 'asha_pregnant_women',
-  children: 'asha_children',
-  visits: 'asha_visits',
-  medicines: 'asha_medicines',
-  couples: 'asha_couples',
+  households: 'bvm_households',
+  pregnantWomen: 'bvm_pregnant_women',
+  children: 'bvm_children',
+  visits: 'bvm_visits',
+  medicines: 'bvm_medicines',
+  couples: 'bvm_couples',
 };
 
 async function loadData<T>(key: string): Promise<T[]> {

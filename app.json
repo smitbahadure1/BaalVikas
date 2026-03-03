@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "NMMC ASHA Mobile App",
-    "slug": "nmmc-asha-mobile-app",
+    "name": "Bal Vikas Mitra",
+    "slug": "bal-vikas-mitra",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -45,7 +45,7 @@
         "origin": "https://rork.com/"
       },
       "eas": {
-        "projectId": "0334f5fb-492c-427d-8325-f8829f603364"
+        "projectId": "4be6df7d-9275-481b-9f5d-eb02866f3d8d"
       }
     },
     "owner": "niraj09619"

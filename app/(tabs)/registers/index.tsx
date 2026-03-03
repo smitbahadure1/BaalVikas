@@ -24,8 +24,8 @@ export default function RegistersScreen() {
 
     const registers: RegisterItem[] = [
         {
-            title: 'Household Register',
-            subtitle: 'Family survey records',
+            title: 'Beneficiary Register',
+            subtitle: 'Child + mother details',
             icon: 'home-group',
             color: '#1565C0',
             bg: '#E3F2FD',
@@ -33,8 +33,8 @@ export default function RegistersScreen() {
             count: households.length,
         },
         {
-            title: 'Pregnant Women',
-            subtitle: 'Maternal care tracking',
+            title: 'Pregnant & Lactating Mothers',
+            subtitle: 'ANC visit tracking',
             icon: 'human-pregnant',
             color: '#C62828',
             bg: '#FFEBEE',
@@ -42,8 +42,8 @@ export default function RegistersScreen() {
             count: activePregnant,
         },
         {
-            title: 'Child Immunization',
-            subtitle: 'Vaccination records',
+            title: 'Child Growth Monitoring',
+            subtitle: 'Growth history',
             icon: 'baby-carriage',
             color: '#2E7D32',
             bg: '#E8F5E9',
@@ -51,8 +51,8 @@ export default function RegistersScreen() {
             count: children.length,
         },
         {
-            title: 'Eligible Couples',
-            subtitle: 'Family planning records',
+            title: 'Pre-School Attendance',
+            subtitle: 'Daily attendance',
             icon: 'human-male-female',
             color: '#6A1B9A',
             bg: '#F3E5F5',
@@ -60,8 +60,8 @@ export default function RegistersScreen() {
             count: couples.length,
         },
         {
-            title: 'Medicine Distribution',
-            subtitle: 'Supply tracking',
+            title: 'Nutrition Distribution Register',
+            subtitle: 'THR (Take Home Ration)',
             icon: 'medical-bag',
             color: '#00695C',
             bg: '#E0F2F1',

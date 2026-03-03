@@ -60,6 +60,9 @@ export interface Child {
     householdId?: string;
     vaccines: VaccineRecord[];
     growthNotes: string;
+    weight?: string;
+    height?: string;
+    growthStatus?: 'Normal' | 'MAM' | 'SAM';
     createdAt: string;
     updatedAt: string;
 }
@@ -78,7 +81,7 @@ export interface DailyVisit {
     householdName?: string;
     date: string;
     time: string;
-    purpose: 'ANC' | 'Vaccination' | 'Counseling' | 'Follow-up' | 'Survey' | 'Medicine Distribution' | 'Other';
+    purpose: 'Home Visit' | 'Counseling' | 'Growth Check' | 'Distribution' | 'ANC' | 'Vaccination' | 'Follow-up' | 'Survey' | 'Medicine Distribution' | 'Other';
     notes: string;
     isCompleted: boolean;
     createdAt: string;

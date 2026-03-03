@@ -13,7 +13,7 @@ export default function HomeLayout() {
     >
       <Stack.Screen
         name="index"
-        options={{ title: "NMMC ASHA Worker" }}
+        options={{ title: "Bal Vikas Mitra" }}
       />
     </Stack>
   );

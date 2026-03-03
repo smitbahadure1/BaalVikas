@@ -12,7 +12,7 @@ export default function MoreScreen() {
 
     const menuItems = [
         {
-            title: 'Reminders & Alerts',
+            title: 'Nutrition & Follow-up Alerts',
             subtitle: 'Upcoming ANC visits, vaccines & follow-ups',
             icon: 'bell-ring',
             color: '#F57F17',
@@ -28,7 +28,7 @@ export default function MoreScreen() {
             route: '/more/reports',
         },
         {
-            title: 'Health Education',
+            title: 'Child Development Resources',
             subtitle: 'Reference material for counseling',
             icon: 'school',
             color: '#4527A0',
@@ -56,7 +56,7 @@ export default function MoreScreen() {
                     )}
                     <View>
                         <Text style={styles.syncTitle}>
-                            {lastSynced ? 'Data Synced' : 'Working Offline'}
+                            {lastSynced ? 'Data Updated' : 'Working Offline'}
                         </Text>
                         <Text style={styles.syncSubtitle}>
                             {lastSynced
@@ -104,7 +104,7 @@ export default function MoreScreen() {
                 <View style={styles.aboutIcon}>
                     <MaterialCommunityIcons name="information" size={28} color={Colors.primary} />
                 </View>
-                <Text style={styles.aboutTitle}>NMMC ASHA Worker App</Text>
+                <Text style={styles.aboutTitle}>Bal Vikas Mitra</Text>
                 <Text style={styles.aboutSubtitle}>
                     Navi Mumbai Municipal Corporation{'\n'}
                     Digital Health Records System

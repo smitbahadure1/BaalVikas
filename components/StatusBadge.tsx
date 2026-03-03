@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import Colors from '@/constants/colors';
 
 interface StatusBadgeProps {
-  status: 'pending' | 'completed' | 'due' | 'overdue' | 'active' | 'delivered' | 'closed' | 'given' | 'high-risk';
+  status: 'pending' | 'completed' | 'due' | 'overdue' | 'active' | 'delivered' | 'closed' | 'given' | 'high-risk' | 'Normal' | 'MAM' | 'SAM';
   label?: string;
 }
 
@@ -17,6 +17,9 @@ const STATUS_CONFIG: Record<string, { bg: string; text: string; label: string }>
   closed: { bg: '#ECEFF1', text: '#546E7A', label: 'Closed' },
   given: { bg: Colors.successLight, text: '#2E7D32', label: 'Given' },
   'high-risk': { bg: Colors.dangerLight, text: '#C62828', label: 'High Risk' },
+  Normal: { bg: Colors.successLight, text: '#2E7D32', label: 'Normal' },
+  MAM: { bg: Colors.warningLight, text: '#E65100', label: 'MAM' },
+  SAM: { bg: Colors.dangerLight, text: '#C62828', label: 'SAM' },
 };
 
 export default function StatusBadge({ status, label }: StatusBadgeProps) {

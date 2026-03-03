@@ -64,14 +64,14 @@ export default function LoginScreen() {
             >
                 <View style={styles.logoContainer}>
                     <MaterialCommunityIcons name="medical-bag" size={64} color="#F57F17" style={styles.iconSpaced} />
-                    <Text style={styles.appTitle}>ASHA Mitra</Text>
+                    <Text style={styles.appTitle}>Bal Vikas Mitra</Text>
                     <Text style={styles.appSubtitle}>Digital Health Records System</Text>
                 </View>
 
                 <View style={styles.bottomSheet}>
                     <ScrollView contentContainerStyle={styles.scrollContent} keyboardShouldPersistTaps="handled">
                         <Text style={styles.loginTitle}>{isLogin ? 'Welcome Back' : 'Create Account'}</Text>
-                        <Text style={styles.loginSubtitle}>{isLogin ? 'Sign in with your ASHA credentials' : 'Register a new ASHA worker account'}</Text>
+                        <Text style={styles.loginSubtitle}>{isLogin ? 'Sign in with your Anganwadi credentials' : 'Register a new Anganwadi worker account'}</Text>
 
                         <View style={styles.inputContainer}>
                             <MaterialCommunityIcons name="email-outline" size={20} color={Colors.textMuted} style={styles.inputIcon} />
@@ -131,7 +131,7 @@ export default function LoginScreen() {
 
                         <View style={styles.supportContainer}>
                             <MaterialCommunityIcons name="lifebuoy" size={16} color={Colors.textMuted} />
-                            <Text style={styles.supportText}>Need help? Contact NMMC Support</Text>
+                            <Text style={styles.supportText}>Need help? Contact ICDS Support</Text>
                         </View>
                     </ScrollView>
                 </View>

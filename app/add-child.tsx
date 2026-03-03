@@ -5,6 +5,7 @@ import { Save } from 'lucide-react-native';
 import Colors from '@/constants/colors';
 import { useData } from '@/providers/DataProvider';
 import { FormField, PickerField } from '@/components/FormField';
+import StatusBadge from '@/components/StatusBadge';
 import { VACCINE_SCHEDULE } from '@/mocks/vaccines';
 import { VaccineRecord } from '@/types';
 
@@ -20,8 +21,21 @@ export default function AddChildScreen() {
     const [fatherName, setFatherName] = useState('');
     const [motherName, setMotherName] = useState('');
     const [contactNumber, setContactNumber] = useState('');
+    const [weight, setWeight] = useState('');
+    const [height, setHeight] = useState('');
     const [growthNotes, setGrowthNotes] = useState('');
     const [householdName, setHouseholdName] = useState('');
+
+    const growthStatus = useMemo(() => {
+        const w = parseFloat(weight);
+        const h = parseFloat(height);
+        if (!w || !h || h <= 0) return undefined;
+        // Simplified BMI proxy for presentation purposes
+        const bmi = w / ((h / 100) * (h / 100));
+        if (bmi < 13) return 'SAM';
+        if (bmi >= 13 && bmi < 15) return 'MAM';
+        return 'Normal';
+    }, [weight, height]);
 
     const householdNames = households.map(h => h.headOfFamily);
 
@@ -81,6 +95,9 @@ export default function AddChildScreen() {
             contactNumber: contactNumber.trim(),
             householdId: selectedHousehold?.id,
             vaccines: generateVaccines(dob),
+            weight: weight.trim(),
+            height: height.trim(),
+            growthStatus: growthStatus,
             growthNotes: growthNotes.trim(),
             createdAt: now,
             updatedAt: now,
@@ -112,6 +129,23 @@ export default function AddChildScreen() {
             <FormField label="Father's Name" value={fatherName} onChangeText={setFatherName} placeholder="Enter name" />
             <FormField label="Mother's Name" value={motherName} onChangeText={setMotherName} placeholder="Enter name" />
             <FormField label="Contact Number" value={contactNumber} onChangeText={setContactNumber} placeholder="Mobile number" keyboardType="phone-pad" />
+
+            <View style={styles.row}>
+                <View style={styles.half}>
+                    <FormField label="Weight (kg)" value={weight} onChangeText={setWeight} placeholder="e.g. 12.5" keyboardType="numeric" />
+                </View>
+                <View style={styles.half}>
+                    <FormField label="Height (cm)" value={height} onChangeText={setHeight} placeholder="e.g. 90" keyboardType="numeric" />
+                </View>
+            </View>
+
+            {growthStatus && (
+                <View style={{ marginBottom: 16 }}>
+                    <Text style={{ fontSize: 13, color: Colors.textSecondary, marginBottom: 6 }}>Automated Growth Category:</Text>
+                    <StatusBadge status={growthStatus as any} />
+                </View>
+            )}
+
             <FormField label="Growth Monitoring Notes" value={growthNotes} onChangeText={setGrowthNotes} placeholder="Weight, height observations..." multiline />
 
             <View style={styles.infoCard}>

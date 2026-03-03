@@ -106,13 +106,13 @@ export default function AddPregnantScreen() {
             {eddAndTrimester.edd ? (
                 <View style={styles.infoCard}>
                     <View style={styles.infoRow}>
-                        <Text style={styles.infoLabel}>Expected Delivery Date</Text>
+                        <Text style={styles.infoLabel}>Automated Expected Delivery Date</Text>
                         <Text style={styles.infoValue}>
                             {new Date(eddAndTrimester.edd).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}
                         </Text>
                     </View>
                     <View style={styles.infoRow}>
-                        <Text style={styles.infoLabel}>Current Trimester</Text>
+                        <Text style={styles.infoLabel}>Auto-Calculated Trimester</Text>
                         <Text style={styles.infoValue}>Trimester {eddAndTrimester.trimester}</Text>
                     </View>
                 </View>
@@ -137,11 +137,11 @@ const styles = StyleSheet.create({
     row: { flexDirection: 'row', gap: 12 },
     half: { flex: 1 },
     infoCard: {
-        backgroundColor: Colors.primaryFaded, borderRadius: 12, padding: 14, marginBottom: 16, gap: 8,
+        backgroundColor: Colors.successLight, borderRadius: 12, padding: 14, marginBottom: 16, gap: 8,
     },
     infoRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-    infoLabel: { fontSize: 13, color: Colors.textSecondary },
-    infoValue: { fontSize: 14, fontWeight: '600', color: Colors.primaryDark },
+    infoLabel: { fontSize: 13, color: Colors.success },
+    infoValue: { fontSize: 14, fontWeight: '700', color: Colors.success },
     saveButton: {
         flexDirection: 'row', alignItems: 'center', justifyContent: 'center',
         backgroundColor: Colors.primary, borderRadius: 14, paddingVertical: 16,

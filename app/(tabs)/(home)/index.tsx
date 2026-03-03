@@ -55,14 +55,14 @@ export default function HomeScreen() {
     }, [activePregnantWomen]);
 
     const quickActions = [
-        { label: 'Households', icon: 'home-group', color: '#FFF', bg: '#4285F4', route: '/registers/households' },
-        { label: 'Pregnant', icon: 'human-pregnant', color: '#FFF', bg: '#E91E63', route: '/registers/pregnant' },
-        { label: 'Children', icon: 'baby-carriage', color: '#FFF', bg: '#4CAF50', route: '/registers/children' },
-        { label: 'Couples', icon: 'human-male-female', color: '#FFF', bg: '#9C27B0', route: '/registers/couples' },
-        { label: 'Visits', icon: 'clipboard-text-clock', color: '#FFF', bg: '#FF9800', route: '/visits' },
-        { label: 'Medicine', icon: 'medical-bag', color: '#FFF', bg: '#009688', route: '/registers/medicines' },
-        { label: 'Reminders', icon: 'bell-ring', color: '#FFF', bg: '#F44336', route: '/more/reminders' },
-        { label: 'Education', icon: 'school', color: '#FFF', bg: '#3F51B5', route: '/more/education' },
+        { label: 'Beneficiaries', icon: 'home-group', color: '#FFF', bg: '#4285F4', route: '/registers/households' },
+        { label: 'Pregnant Mothers', icon: 'human-pregnant', color: '#FFF', bg: '#E91E63', route: '/registers/pregnant' },
+        { label: 'Child Growth', icon: 'baby-carriage', color: '#FFF', bg: '#4CAF50', route: '/registers/children' },
+        { label: 'Lactating Mothers', icon: 'human-male-female', color: '#FFF', bg: '#9C27B0', route: '/registers/couples' },
+        { label: 'Daily Activities', icon: 'clipboard-text-clock', color: '#FFF', bg: '#FF9800', route: '/visits' },
+        { label: 'Nutrition Distribution', icon: 'medical-bag', color: '#FFF', bg: '#009688', route: '/registers/medicines' },
+        { label: 'Alerts', icon: 'bell-ring', color: '#FFF', bg: '#F44336', route: '/more/reminders' },
+        { label: 'Learning Resources', icon: 'school', color: '#FFF', bg: '#3F51B5', route: '/more/education' },
     ];
 
     return (
@@ -87,17 +87,17 @@ export default function HomeScreen() {
                 <View style={[styles.statCard, { backgroundColor: '#E3F2FD' }]}>
                     <MaterialCommunityIcons name="clipboard-list-outline" size={24} color="#1565C0" />
                     <Text style={[styles.statNumber, { color: '#1565C0' }]}>{todayVisits.length}</Text>
-                    <Text style={styles.statLabel}>{"Today's Visits"}</Text>
+                    <Text style={styles.statLabel}>{"Today's Activities"}</Text>
                 </View>
                 <View style={[styles.statCard, { backgroundColor: '#E8F5E9' }]}>
                     <MaterialCommunityIcons name="calendar-check-outline" size={24} color="#2E7D32" />
                     <Text style={[styles.statNumber, { color: '#2E7D32' }]}>{completedToday}</Text>
-                    <Text style={styles.statLabel}>Completed</Text>
+                    <Text style={styles.statLabel}>Children Attended</Text>
                 </View>
                 <View style={[styles.statCard, { backgroundColor: '#FFF3E0' }]}>
                     <MaterialCommunityIcons name="bell-outline" size={24} color="#E65100" />
                     <Text style={[styles.statNumber, { color: '#E65100' }]}>{pendingFollowUps.length}</Text>
-                    <Text style={styles.statLabel}>Follow-ups</Text>
+                    <Text style={styles.statLabel}>Nutrition Follow-ups</Text>
                 </View>
             </View>
 
@@ -116,8 +116,8 @@ export default function HomeScreen() {
                                 <MaterialCommunityIcons name="alert-circle" size={22} color="#C62828" />
                             </View>
                             <View style={styles.alertContent}>
-                                <Text style={styles.alertTitle}>{highRiskCount} High Risk Pregnancies</Text>
-                                <Text style={styles.alertSubtitle}>Require close monitoring</Text>
+                                <Text style={styles.alertTitle}>⚠️ {highRiskCount} Underweight Children</Text>
+                                <Text style={styles.alertSubtitle}>Require nutrition monitoring</Text>
                             </View>
                             <MaterialCommunityIcons name="chevron-right" size={22} color={Colors.textMuted} />
                         </TouchableOpacity>
@@ -176,7 +176,7 @@ export default function HomeScreen() {
                 >
                     <View style={styles.overviewLeft}>
                         <MaterialCommunityIcons name="home-group" size={22} color={Colors.primary} />
-                        <Text style={styles.overviewLabel}>Households Registered</Text>
+                        <Text style={styles.overviewLabel}>Total Beneficiaries Registered</Text>
                     </View>
                     <Text style={styles.overviewValue}>{households.length}</Text>
                 </TouchableOpacity>
@@ -191,7 +191,7 @@ export default function HomeScreen() {
                 >
                     <View style={styles.overviewLeft}>
                         <MaterialCommunityIcons name="heart-pulse" size={22} color={Colors.danger} />
-                        <Text style={styles.overviewLabel}>Active Pregnancies</Text>
+                        <Text style={styles.overviewLabel}>Active Pregnant Mothers</Text>
                     </View>
                     <Text style={styles.overviewValue}>{activePregnantWomen.length}</Text>
                 </TouchableOpacity>
@@ -206,7 +206,7 @@ export default function HomeScreen() {
                 >
                     <View style={styles.overviewLeft}>
                         <MaterialCommunityIcons name="baby-face-outline" size={22} color={Colors.success} />
-                        <Text style={styles.overviewLabel}>Children Tracked</Text>
+                        <Text style={styles.overviewLabel}>Children Under Monitoring</Text>
                     </View>
                     <Text style={styles.overviewValue}>{children.length}</Text>
                 </TouchableOpacity>
@@ -221,7 +221,7 @@ export default function HomeScreen() {
                 >
                     <View style={styles.overviewLeft}>
                         <MaterialCommunityIcons name="chart-box-outline" size={22} color={Colors.info} />
-                        <Text style={styles.overviewLabel}>{"This Month's Visits"}</Text>
+                        <Text style={styles.overviewLabel}>{"This Month's Activities"}</Text>
                     </View>
                     <Text style={styles.overviewValue}>
                         {visits.filter(v => {

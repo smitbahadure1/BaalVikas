@@ -37,7 +37,7 @@ export default function AddVisitScreen() {
             householdId: households.find(h => h.headOfFamily === householdName)?.id,
             date: now.toISOString().split('T')[0],
             time: timeStr,
-            purpose: purpose as 'ANC' | 'Vaccination' | 'Counseling' | 'Follow-up' | 'Survey' | 'Medicine Distribution' | 'Other',
+            purpose: purpose as any,
             notes: notes.trim(),
             isCompleted: false,
             createdAt: now.toISOString(),
@@ -48,25 +48,25 @@ export default function AddVisitScreen() {
 
     return (
         <ScrollView style={styles.container} contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
-            <PickerField label="Purpose of Visit" value={purpose} options={VISIT_PURPOSES} onSelect={setPurpose} required />
+            <PickerField label="Activity Type" value={purpose} options={VISIT_PURPOSES} onSelect={setPurpose} required />
 
             {potentialBeneficiaries.length > 0 ? (
                 <PickerField
-                    label="Household / Beneficiary Name"
+                    label="Beneficiary Name"
                     value={householdName}
                     options={potentialBeneficiaries}
                     onSelect={setHouseholdName}
                 />
             ) : (
                 <FormField
-                    label="Household / Beneficiary Name"
+                    label="Beneficiary Name"
                     value={householdName}
                     onChangeText={setHouseholdName}
                     placeholder="Enter name (optional)"
                 />
             )}
 
-            <FormField label="Visit Notes" value={notes} onChangeText={setNotes} placeholder="Observations, details..." multiline />
+            <FormField label="Notes" value={notes} onChangeText={setNotes} placeholder="Observations, details..." multiline />
 
             <View style={styles.infoCard}>
                 <Text style={styles.infoText}>

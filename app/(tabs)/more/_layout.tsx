@@ -12,9 +12,9 @@ export default function MoreLayout() {
             }}
         >
             <Stack.Screen name="index" options={{ title: "More" }} />
-            <Stack.Screen name="reminders" options={{ title: "Reminders & Alerts" }} />
+            <Stack.Screen name="reminders" options={{ title: "Nutrition & Follow-up Alerts" }} />
             <Stack.Screen name="reports" options={{ title: "Reports & Summary" }} />
-            <Stack.Screen name="education" options={{ title: "Health Education" }} />
+            <Stack.Screen name="education" options={{ title: "Child Development Resources" }} />
             <Stack.Screen name="settings" options={{ title: "Settings" }} />
         </Stack>
     );

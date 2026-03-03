@@ -11,6 +11,7 @@ export default function AddMedicineScreen() {
     const router = useRouter();
     const { addMedicine, households, pregnantWomen, children, couples } = useData();
 
+    const [thrCategory, setThrCategory] = useState('');
     const [medicineName, setMedicineName] = useState('');
     const [quantity, setQuantity] = useState('');
     const [beneficiaryName, setBeneficiaryName] = useState('');
@@ -22,6 +23,22 @@ export default function AddMedicineScreen() {
         ...children.map(c => c.name),
         ...couples.map(c => c.wifeName)
     ])).filter(Boolean);
+
+    React.useEffect(() => {
+        if (thrCategory === 'Pregnant/Lactating Mother') {
+            setMedicineName('THR Kit - Mother (Dal, Wheat, Jaggery)');
+            setQuantity('1');
+        } else if (thrCategory === 'SAM Child (6m - 3y)') {
+            setMedicineName('Energy Dense Nutritious Food (EDNF) Packets');
+            setQuantity('2');
+        } else if (thrCategory === 'Normal Child (6m - 3y)') {
+            setMedicineName('THR Kit - Child (Bal Aahar)');
+            setQuantity('1');
+        } else if (thrCategory === 'Adolescent Girl') {
+            setMedicineName('THR Kit - Adolescent (Dal, Wheat)');
+            setQuantity('1');
+        }
+    }, [thrCategory]);
 
     const handleSave = () => {
         if (!medicineName) {
@@ -48,7 +65,18 @@ export default function AddMedicineScreen() {
 
     return (
         <ScrollView style={styles.container} contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
-            <PickerField label="Medicine / Supply" value={medicineName} options={MEDICINE_LIST} onSelect={setMedicineName} required />
+            <PickerField
+                label="Beneficiary Category (Auto-fills Ration)"
+                value={thrCategory}
+                options={['Pregnant/Lactating Mother', 'SAM Child (6m - 3y)', 'Normal Child (6m - 3y)', 'Adolescent Girl', 'Other Supplies']}
+                onSelect={setThrCategory}
+            />
+
+            {thrCategory === 'Other Supplies' || !thrCategory ? (
+                <PickerField label="Medicine / Supply" value={medicineName} options={MEDICINE_LIST} onSelect={setMedicineName} required />
+            ) : (
+                <FormField label="Supply Issued" value={medicineName} onChangeText={setMedicineName} required />
+            )}
             <FormField label="Quantity Distributed" value={quantity} onChangeText={setQuantity} placeholder="Number of units" keyboardType="numeric" required />
 
             {potentialBeneficiaries.length > 0 ? (

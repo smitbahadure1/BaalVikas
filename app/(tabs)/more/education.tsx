@@ -6,12 +6,10 @@ import Colors from '@/constants/colors';
 import { HEALTH_ARTICLES, EDUCATION_CATEGORIES, HealthArticle } from '@/mocks/healthEducation';
 
 const CATEGORY_COLORS: Record<string, { color: string; bg: string }> = {
-  'Pregnancy Care': { color: '#C62828', bg: '#FFEBEE' },
-  'Child Nutrition': { color: '#2E7D32', bg: '#E8F5E9' },
-  'Immunization': { color: '#E65100', bg: '#FFF3E0' },
-  'Child Health': { color: '#00695C', bg: '#E0F2F1' },
-  'Family Planning': { color: '#6A1B9A', bg: '#F3E5F5' },
-  'Government Schemes': { color: '#1565C0', bg: '#E3F2FD' },
+  'Early childhood learning tips': { color: '#C62828', bg: '#FFEBEE' },
+  'Nutrition awareness': { color: '#2E7D32', bg: '#E8F5E9' },
+  'Government ICDS schemes': { color: '#1565C0', bg: '#E3F2FD' },
+  'Counseling material': { color: '#E65100', bg: '#FFF3E0' },
 };
 
 export default function EducationScreen() {
